@@ -55,6 +55,24 @@ impl<'a> Token<'a> {
                     literal: String::from(EOF),
                 };
             }
+            Tokens::Command(s) => {
+                return Token {
+                    typ: COMMAND,
+                    literal: String::from(s),
+                };
+            }
+            Tokens::Quote => {
+                return Token {
+                    typ: QUOTE,
+                    literal: String::from(QUOTE),
+                };
+            }
+            Tokens::ShortIdent(c) => {
+                return Token {
+                    typ: ShortIdent,
+                    literal: String::from(c),
+                };
+            }
         }
     }
 
@@ -63,9 +81,13 @@ impl<'a> Token<'a> {
     }
 }
 
+//TODO: this set needs to be re evaluated from scratch
 pub enum Tokens<'a> {
     Illegal(char),
     Ident(&'a Type),
+    Command(&'a Type),
+    ShortIdent(char),
+    Quote,
     DoubleDash,
     Dash,
     EOF,
@@ -76,6 +98,9 @@ pub const IDENT: &Type = "IDENT";
 pub const DOUBLE_DASH: &Type = "--";
 pub const DASH: &Type = "-";
 pub const EOF: &Type = "EOF";
+pub const QUOTE: &Type = "\"";
+pub const COMMAND: &Type = "COMMAND";
+pub const ShortIdent: &Type = "ShortIdent";
 
 //#[cfg(test)]
 //mod tests {
